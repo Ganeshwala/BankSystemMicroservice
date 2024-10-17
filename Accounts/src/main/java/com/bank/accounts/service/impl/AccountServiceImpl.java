@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bank.accounts.constants.AccountConstants;
+import com.bank.accounts.dto.AccountsDto;
 import com.bank.accounts.dto.CustomerDto;
 import com.bank.accounts.entity.Accounts;
 import com.bank.accounts.entity.Customer;
 import com.bank.accounts.exception.CustomerAlreadyExistsException;
+import com.bank.accounts.exception.ResourceNotFoundException;
+import com.bank.accounts.mapper.AccountsMapper;
 import com.bank.accounts.mapper.CustomerMapper;
 import com.bank.accounts.repository.AccountsRepository;
 import com.bank.accounts.repository.CustomerRepository;
@@ -52,5 +55,19 @@ public class AccountServiceImpl implements AccountService{
         newAccount.setCreateBy(customer.getName());
         return newAccount;
     }
+
+	@Override
+	public CustomerDto fetchAccount(String mobileNumber) {
+		Customer customer = customerRepo.findByMobileNumber(mobileNumber).orElseThrow(
+				()->new ResourceNotFoundException("Customer", "MobileNumber", mobileNumber)
+				);
+		
+		Accounts account = accountsRepo.findByCustomerId(customer.getCustomerId()).orElseThrow(
+				()-> new ResourceNotFoundException("Account", "Customer Id", customer.getCustomerId().toString())
+				);
+		CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+		customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
+		return customerDto;
+	}
 	
 }
