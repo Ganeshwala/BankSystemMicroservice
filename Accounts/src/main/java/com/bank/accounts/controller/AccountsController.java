@@ -18,13 +18,30 @@ import com.bank.accounts.dto.CustomerDto;
 import com.bank.accounts.dto.ResponseDto;
 import com.bank.accounts.service.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(path="/account",produces = {MediaType.APPLICATION_JSON_VALUE})
+@Tag(
+		name = "CRUD REST APIs for Accounts in Banking System",
+		description = "CURD Rest API in Banking System to CREATE,UPDATE,READ,DELETE account details."
+		)
 public class AccountsController {
 	
 	@Autowired
 	private AccountService accountService;
 
+	@Operation(
+				summary = "Create Account Rest API",
+				description = "Rest API to create new account deatile for new customer."
+			)
+	@ApiResponse(
+			responseCode = "201",
+			description = "HTTP status Created"
+			)
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customer){
 		accountService.createAccount(customer);
@@ -40,6 +57,21 @@ public class AccountsController {
 		return ResponseEntity.status(HttpStatus.OK).body(fetchAccount);
 	}
 	
+	@Operation(
+			summary = "Update Account Deatils Rest API",
+			description = "REST API to update Customer & Account details base on account number."
+			)
+	// to give multiple response description
+	@ApiResponses({
+				@ApiResponse(
+							responseCode = "200",
+							description = "HTTP Status OK"
+						),
+				@ApiResponse(
+						responseCode = "500",
+						description = "HTTP Status Internal Server Error"
+						)
+	})
 	@PutMapping("/update")
 	public ResponseEntity<ResponseDto> updateAccountDeatils(@RequestBody CustomerDto customerDto){
 		boolean isUpdated = accountService.updateAccount(customerDto);
