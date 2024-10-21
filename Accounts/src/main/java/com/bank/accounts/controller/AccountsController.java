@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,5 +37,15 @@ public class AccountsController {
 	public ResponseEntity<CustomerDto> fetchCustomerDeatils(@RequestParam String mobileNumber){
 		CustomerDto fetchAccount = accountService.fetchAccount(mobileNumber);
 		return ResponseEntity.status(HttpStatus.OK).body(fetchAccount);
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<ResponseDto> updateAccountDeatils(@RequestBody CustomerDto customerDto){
+		boolean isUpdated = accountService.updateAccount(customerDto);
+		if(isUpdated) {
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AccountConstants.STATUS_200,AccountConstants.MESSAGE_200));
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto(AccountConstants.STATUS_500,AccountConstants.MESSAGE_500));
+		}
 	}
 }

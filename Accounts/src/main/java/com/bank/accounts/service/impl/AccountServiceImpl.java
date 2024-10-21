@@ -69,5 +69,26 @@ public class AccountServiceImpl implements AccountService{
 		customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
 		return customerDto;
 	}
+
+	@Override
+	public boolean updateAccount(CustomerDto customerDto) {
+		 boolean isUpdated = false;
+		 AccountsDto accountsDto = customerDto.getAccountsDto();
+		 if(accountsDto != null) {
+			 Accounts accounts = accountsRepo.findById(accountsDto.getAccountNumber()).orElseThrow(
+					 ()->new ResourceNotFoundException("Account", "AccountNumber", accountsDto.getAccountNumber().toString()));
+			 
+			 Accounts mapToAccounts = AccountsMapper.mapToAccounts(accountsDto, accounts);
+			 accounts = accountsRepo.save(mapToAccounts);
+			 
+			 Long customerId = accounts.getCustomerId();
+			 Customer customer = customerRepo.findById(customerId).orElseThrow(
+					 ()->new ResourceNotFoundException("Customer", "CustomerId", customerId.toString()));
+			 CustomerMapper.mapToCustomer(customerDto, customer);
+			 customerRepo.save(customer);
+			 isUpdated = true;
+		 }
+		return isUpdated;
+	}
 	
 }

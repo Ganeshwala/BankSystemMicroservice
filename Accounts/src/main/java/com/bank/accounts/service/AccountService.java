@@ -15,4 +15,6 @@ public interface AccountService {
 	
 
 	public CustomerDto fetchAccount(String mobileNumber);
+	
+	public boolean updateAccount(CustomerDto customerDto);
 }
