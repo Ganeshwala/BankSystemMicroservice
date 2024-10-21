@@ -9,7 +9,7 @@ import lombok.ToString;
 @MappedSuperclass // this annotation will allowed to map this class with any other // like inheritance
 @Data
 @ToString
-public class BasicDataTime {
+public class BaseEntities {
 
 	public LocalDateTime createdAt;
 	

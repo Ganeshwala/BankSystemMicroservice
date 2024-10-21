@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Loans extends BasicDataTime{
+public class Loans extends BaseEntities{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
