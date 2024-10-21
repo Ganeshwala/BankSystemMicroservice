@@ -13,6 +13,16 @@ import com.bank.accounts.dto.ErrorResponseDto;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception customerException,WebRequest webRequest){
+		ErrorResponseDto errorResponseDto = new ErrorResponseDto();
+		errorResponseDto.setApiPath(webRequest.getDescription(false));
+		errorResponseDto.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR);
+		errorResponseDto.setErrorMsg(customerException.getMessage());
+		errorResponseDto.setErrorTime(LocalDateTime.now());
+		return new ResponseEntity<>(errorResponseDto,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@ExceptionHandler(CustomerAlreadyExistsException.class)
 	public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException customerException,WebRequest webRequest){
 		ErrorResponseDto errorResponseDto = new ErrorResponseDto();
