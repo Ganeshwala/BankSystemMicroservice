@@ -1,4 +1,4 @@
-package com.bank.cards.service;
+package com.bank.cards.service.impl;
 
 import java.util.Optional;
 import java.util.Random;
@@ -12,6 +12,7 @@ import com.bank.cards.entity.repository.CardsRepository;
 import com.bank.cards.exception.CardAlreadyExistsException;
 import com.bank.cards.exception.ResourceNotFoundException;
 import com.bank.cards.mapper.CardsMapper;
+import com.bank.cards.service.CardsService;
 
 import lombok.AllArgsConstructor;
 
