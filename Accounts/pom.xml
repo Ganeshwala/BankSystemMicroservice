@@ -12,6 +12,7 @@
 	<groupId>com.bank.accounts</groupId>
 	<artifactId>Accounts</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>Accounts</name>
 	<description>Developing Account Microservices for Bank System</description>
 	<url />
