@@ -11,6 +11,7 @@
 	<groupId>com.bank.loans</groupId>
 	<artifactId>Loans</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>Loans</name>
 	<description>Developing Loan Microservice for Bank System</description>
 	<url/>
@@ -80,6 +81,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>cganeshwala/loans:loanimage</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
